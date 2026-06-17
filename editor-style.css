@@ -1,0 +1,76 @@
+/* Pinery Editor Styles */
+
+body {
+  font-family: 'Jost', sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #3d3028;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 400;
+  color: #2c2420;
+}
+
+h2 { font-size: 1.8rem; margin: 2.5rem 0 1rem; }
+h3 { font-size: 1.4rem; margin: 2rem 0 0.8rem; }
+
+p {
+  line-height: 1.85;
+  margin-bottom: 1.5rem;
+}
+
+a {
+  color: #b07d62;
+  border-bottom: 1px solid #d4a088;
+  text-decoration: none;
+}
+
+blockquote {
+  border-left: 3px solid #b07d62;
+  padding: 1rem 1.5rem;
+  margin: 2rem 0;
+  background: #f0ebe4;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.2rem;
+  font-style: italic;
+  color: #8c7b6e;
+}
+
+ul, ol {
+  margin: 1.2rem 0 1.5rem 1.5rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+  line-height: 1.7;
+}
+
+/* Product box in editor */
+.product-box {
+  border: 1px solid #e8dfd5;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  background: #fff9f5;
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.product-box img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+}
+
+.btn-amazon {
+  display: inline-block;
+  background: #b07d62;
+  color: #fff;
+  padding: 0.6rem 1.4rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
