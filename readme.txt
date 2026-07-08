@@ -1,5 +1,5 @@
 === Pinery ===
-Theme URI: https://www.pinery.pro/
+Theme URI: https://github.com/liuciming/pinery-theme
 Author: PineryPicks
 Author URI: https://www.pinery.pro/
 Description: Pinery is a clean, lightweight masonry-grid theme for blogs, photography, and image-led content. It features a responsive Pinterest-style card layout, a lightbox image preview, Customizer color options, custom logo and header support, featured images, and a right sidebar. Translation-ready.
