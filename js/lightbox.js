@@ -50,13 +50,10 @@
     }
 
     function swapRoles() {
-      // Swap IDs
-      img.id = 'lightbox-img-next';
-      imgNext.id = 'lightbox-img';
-      // Swap CSS classes
+      // Track active/buffer via CSS classes + JS references only — never mutate DOM ids
+      // (runtime id churn confuses assistive tech and any code holding a stale selector)
       img.classList.add('lightbox-img--next');
       imgNext.classList.remove('lightbox-img--next');
-      // Swap JS references — no transforms changed
       var tmp = img;
       img = imgNext;
       imgNext = tmp;
@@ -262,19 +259,25 @@
 
   // ── Real-time Price Refresh (Creators API) ──
   (function() {
-    var PRICE_TTL = 60 * 60 * 1000; // 60 min default — updated below from theme settings
-    var AJAX_URL = '/wp-admin/admin-ajax.php';
-    var AJAX_NONCE = '';
+    // Config injected by wp_localize_script (pineryData) — meta tags kept as fallback
+    // for statically-exported pages. No hardcoded admin URL: subdirectory installs,
+    // reverse proxies and admin_url filters all change it.
+    var cfg = window.pineryData || {};
+    var PRICE_TTL = 60 * 60 * 1000; // 60 min default
+    var AJAX_URL = cfg.ajaxUrl || '';
+    var AJAX_NONCE = cfg.priceNonce || '';
     var refreshing = false;
 
-    // Read TTL and nonce from meta tags
+    if (parseInt(cfg.priceTtl) > 0) PRICE_TTL = parseInt(cfg.priceTtl) * 60 * 1000;
+
     var ttlMeta = document.querySelector('meta[name="pinery-price-ttl"]');
-    if (ttlMeta) {
+    if (!cfg.priceTtl && ttlMeta) {
       var ttlVal = parseInt(ttlMeta.getAttribute('content'));
       if (ttlVal > 0) PRICE_TTL = ttlVal * 60 * 1000;
     }
     var nonceMeta = document.querySelector('meta[name="pinery-price-nonce"]');
-    if (nonceMeta) AJAX_NONCE = nonceMeta.getAttribute('content');
+    if (!AJAX_NONCE && nonceMeta) AJAX_NONCE = nonceMeta.getAttribute('content');
+    if (!AJAX_URL) return; // no endpoint known — price refresh disabled
 
     function refreshPrice(card) {
       var asin = card.getAttribute('data-asin');

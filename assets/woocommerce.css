@@ -1,0 +1,334 @@
+/* ── Pinery × WooCommerce ─────────────────────────────────
+   Loaded only when WooCommerce is active.
+   Uses the theme's :root custom properties from style.css. */
+
+/* ── Layout wrapper ── */
+.pinery-woo-wrap {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+/* Page titles (Shop / category archives) */
+.woocommerce-products-header__title.page-title {
+  font-family: var(--font-display);
+  font-size: 2.6rem;
+  font-weight: 500;
+  color: var(--dark);
+  margin-bottom: 1.5rem;
+}
+
+/* ── Breadcrumb ── */
+.woocommerce .woocommerce-breadcrumb {
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: 2rem;
+}
+.woocommerce .woocommerce-breadcrumb a { color: var(--text-light); }
+.woocommerce .woocommerce-breadcrumb a:hover { color: var(--accent); }
+
+/* ── Result count + ordering ── */
+.woocommerce .woocommerce-result-count {
+  color: var(--text-light);
+  font-size: 0.85rem;
+}
+.woocommerce .woocommerce-ordering select {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--text);
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  border-radius: 6px;
+  padding: 0.45rem 0.8rem;
+}
+
+/* ── Product grid → Pinery cards ── */
+.woocommerce ul.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1.2rem;
+  margin: 0 0 2rem;
+}
+/* Woo core's clearfix pseudo-elements become empty grid cells — remove them */
+.woocommerce ul.products::before,
+.woocommerce ul.products::after {
+  display: none;
+}
+@media (max-width: 640px) {
+  .woocommerce ul.products { grid-template-columns: repeat(2, 1fr); gap: 0.9rem; }
+}
+/* Selector list must include the [class*="columns-"] variants: Woo core's layout/smallscreen
+   rules use them (4-class specificity) and would otherwise beat our width:auto — the card
+   then shrinks to 48%/22% of its own grid track (the "quarter-width cards on mobile" bug). */
+.woocommerce ul.products li.product,
+.woocommerce-page ul.products li.product,
+.woocommerce ul.products[class*="columns-"] li.product,
+.woocommerce-page ul.products[class*="columns-"] li.product {
+  float: none;
+  clear: none;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  background: var(--warm-white);
+  border-radius: 12px;
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.woocommerce ul.products[class*="columns-"] li.product:nth-child(2n),
+.woocommerce-page ul.products[class*="columns-"] li.product:nth-child(2n) {
+  float: none;
+  clear: none !important;
+}
+.woocommerce ul.products li.product:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+.woocommerce ul.products li.product a img,
+.woocommerce ul.products li.product img.pinery-amazon-hotlink {
+  width: 100%;
+  height: auto;
+  margin: 0;
+  border-radius: 0;
+  background: var(--linen);
+  transition: transform 0.5s ease;
+}
+.woocommerce ul.products li.product:hover a img,
+.woocommerce ul.products li.product:hover img.pinery-amazon-hotlink {
+  transform: scale(1.03);
+}
+.woocommerce ul.products li.product .woocommerce-loop-product__title {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--text-light);
+  padding: 0.6rem 0.5rem 0.1rem;
+}
+.woocommerce ul.products li.product:hover .woocommerce-loop-product__title {
+  color: var(--accent);
+}
+.woocommerce ul.products li.product .price {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 0.35rem;
+}
+.woocommerce ul.products li.product .price del {
+  color: var(--taupe);
+  font-weight: 400;
+}
+.woocommerce ul.products li.product .star-rating {
+  margin: 0.2rem auto 0.3rem;
+}
+.woocommerce ul.products li.product .button {
+  /* cards are narrow on mobile (2-col grid) + overflow:hidden — the button must
+     fit the card and wrap its label, never overflow-clip like an inline-block */
+  display: block;
+  margin: 0.2rem 0.8rem 1rem;
+  padding: 0.7rem 0.6rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  white-space: normal;
+  overflow-wrap: break-word;
+  box-sizing: border-box;
+}
+
+/* ── Sale / badge ── */
+.woocommerce span.onsale {
+  background: var(--accent);
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 0;
+  padding: 0.25rem 0.7rem;
+  min-width: 0;
+  min-height: 0;
+  line-height: 1.6;
+  top: 10px;
+  left: 10px;
+}
+
+/* ── Buttons (loop + single + notices) ── */
+.woocommerce a.button,
+.woocommerce button.button,
+.woocommerce input.button,
+.woocommerce #respond input#submit,
+.woocommerce a.button.alt,
+.woocommerce button.button.alt,
+.woocommerce input.button.alt {
+  display: inline-block;
+  background: var(--dark);
+  color: var(--cream);
+  padding: 0.85rem 2.4rem;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 0;
+  transition: background 0.2s, transform 0.2s;
+}
+.woocommerce a.button:hover,
+.woocommerce button.button:hover,
+.woocommerce input.button:hover,
+.woocommerce #respond input#submit:hover,
+.woocommerce a.button.alt:hover,
+.woocommerce button.button.alt:hover,
+.woocommerce input.button.alt:hover {
+  background: var(--accent);
+  color: var(--cream);
+  transform: translateY(-1px);
+}
+
+/* ── Star ratings ── */
+.woocommerce .star-rating span::before,
+.woocommerce .star-rating::before {
+  color: var(--accent);
+}
+
+/* ── Single product ── */
+.woocommerce div.product .product_title {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 500;
+  color: var(--dark);
+  line-height: 1.2;
+}
+.woocommerce div.product p.price,
+.woocommerce div.product span.price {
+  font-family: var(--font-body);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 0.8rem 0 1.2rem;
+}
+.woocommerce div.product p.price del,
+.woocommerce div.product span.price del {
+  color: var(--taupe);
+  font-weight: 400;
+}
+.woocommerce div.product div.images img {
+  border-radius: 12px;
+  background: var(--linen);
+}
+.woocommerce div.product .woocommerce-product-details__short-description {
+  color: var(--text);
+  line-height: 1.7;
+}
+.woocommerce div.product .product_meta {
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  border-top: 1px solid var(--sand);
+  padding-top: 1rem;
+  margin-top: 1.5rem;
+}
+.woocommerce div.product .product_meta a { color: var(--accent); }
+
+/* Tabs */
+.woocommerce div.product .woocommerce-tabs ul.tabs {
+  padding: 0;
+  margin-bottom: 0;
+}
+.woocommerce div.product .woocommerce-tabs ul.tabs::before {
+  border-color: var(--sand);
+}
+.woocommerce div.product .woocommerce-tabs ul.tabs li {
+  background: var(--linen);
+  border-color: var(--sand);
+  border-radius: 6px 6px 0 0;
+}
+.woocommerce div.product .woocommerce-tabs ul.tabs li.active {
+  background: var(--warm-white);
+}
+.woocommerce div.product .woocommerce-tabs ul.tabs li a {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-light);
+}
+.woocommerce div.product .woocommerce-tabs ul.tabs li.active a { color: var(--dark); }
+.woocommerce div.product .woocommerce-tabs .panel {
+  background: var(--warm-white);
+  border-radius: 0 0 12px 12px;
+  padding: 1.5rem 2rem;
+  box-shadow: var(--shadow);
+}
+
+/* Related products heading */
+.woocommerce .related.products > h2,
+.woocommerce .up-sells > h2,
+.pinery-woo-wrap section.products > h2 {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: var(--dark);
+  margin: 2.5rem 0 1.2rem;
+}
+
+/* Pinery Flow product gallery (hotlinked variants) */
+.pinery-woo-gallery h3 {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: var(--dark);
+}
+
+/* ── Pagination ── */
+.woocommerce nav.woocommerce-pagination ul {
+  border: none;
+}
+.woocommerce nav.woocommerce-pagination ul li {
+  border: none;
+  margin: 0 3px;
+}
+.woocommerce nav.woocommerce-pagination ul li a,
+.woocommerce nav.woocommerce-pagination ul li span {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--text-light);
+  background: var(--warm-white);
+  border-radius: 6px;
+  padding: 0.6rem 1rem;
+}
+.woocommerce nav.woocommerce-pagination ul li span.current,
+.woocommerce nav.woocommerce-pagination ul li a:hover {
+  background: var(--dark);
+  color: var(--cream);
+}
+
+/* ── Notices ── */
+.woocommerce-message,
+.woocommerce-info,
+.woocommerce-error {
+  background: var(--warm-white);
+  color: var(--text);
+  border-top-color: var(--accent);
+  border-radius: 0 0 8px 8px;
+  font-family: var(--font-body);
+}
+.woocommerce-message::before,
+.woocommerce-info::before { color: var(--accent); }
+
+/* ── Forms (reviews etc.) ── */
+.woocommerce #review_form #respond textarea,
+.woocommerce #review_form #respond input[type="text"],
+.woocommerce #review_form #respond input[type="email"] {
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  font-family: var(--font-body);
+}

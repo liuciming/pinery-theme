@@ -3,15 +3,15 @@ Theme URI: https://www.pinery.pro/
 Author: PineryPicks
 Author URI: https://www.pinery.pro/
 Description: Pinery is a clean, lightweight masonry-grid theme for blogs, photography, and image-led content. It features a responsive Pinterest-style card layout, a lightbox image preview, Customizer color options, custom logo and header support, featured images, and a right sidebar. Translation-ready.
-Version: 1.3.0
-Requires at least: 5.8
+Version: 1.5.0
+Requires at least: 6.0
 Tested up to: 7.0
-Requires PHP: 7.4
-Stable tag: 1.3.0
+Requires PHP: 8.0
+Stable tag: 1.5.0
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: pinery
-Tags: blog, photography, grid-layout, two-columns, right-sidebar, custom-background, custom-colors, custom-header, custom-logo, custom-menu, editor-style, featured-images, post-formats, block-styles, theme-options, threaded-comments, translation-ready
+Tags: blog, photography, grid-layout, two-columns, right-sidebar, custom-background, custom-colors, custom-header, custom-logo, custom-menu, editor-style, featured-images, block-styles, theme-options, threaded-comments, translation-ready
 
 == Description ==
 
@@ -58,6 +58,33 @@ No. The theme works on its own. The plugin only adds optional affiliate automati
 
 == Changelog ==
 
+= 1.5.0 =
+* Accessibility: skip-to-content link (visible on focus), main#main landmark on every template
+* Accessibility: visible keyboard focus outlines for links, menus, form fields and buttons
+* Accessibility: links inside post content, comments and text widgets are now underlined
+* Lightbox no longer swaps DOM ids at runtime; active/buffer images tracked via CSS classes
+* admin-ajax URL and nonce are passed to JavaScript via wp_localize_script (no hardcoded path)
+* pinery_adjust_brightness() validates hex input and falls back to a safe default
+* Companion-notice styles moved from inline <style> to an enqueued stylesheet
+* Image size names prefixed (pinery-card, pinery-hero)
+* Requires at least: 6.0, Requires PHP: 8.0
+
+= 1.4.3 =
+* Fixed mobile shop grid: WooCommerce core column rules (higher CSS specificity) were shrinking product cards to a quarter of the screen; cards now fill their grid column (half-screen on mobile)
+
+= 1.4.2 =
+* Category nav now shows a Shop link first when WooCommerce is active (highlighted on the shop page) — on mobile this strip is the only navigation, so the store entry stays reachable
+* Fixed product-card buy button overflowing and clipping its label on narrow mobile cards (now full-width within the card, label wraps)
+
+= 1.4.1 =
+* Version sync with Pinery Flow 1.4.1 (no theme changes)
+
+= 1.4.0 =
+* WooCommerce support: shop, product, and category pages now render inside the theme layout
+* Product grid styled as Pinery cards (warm-white, rounded, hover lift) with theme fonts and colors
+* Product gallery zoom, lightbox, and slider enabled
+* WooCommerce styles load only when WooCommerce is active — zero overhead otherwise
+
 = 1.3.0 =
 * Confirmed compatibility with WordPress 7.0; fonts bundled locally for privacy (no external font requests)
 * Theme is now a clean presentation layer; affiliate, ad, and price features delegate to the optional Pinery Flow plugin when active
@@ -92,3 +119,7 @@ This theme bundles the following third-party resources:
 * Cormorant Garamond font, Copyright the Cormorant Project Authors, licensed under the SIL Open Font License 1.1 — https://fonts.google.com/specimen/Cormorant+Garamond
 
 The screenshot image is the original work of the theme author and is licensed under GPL v2 or later.
+
+All other code (PHP, CSS, JavaScript including the lightbox script), the inline SVG icons, and the
+bundled images/assets (assets/pinery-flow-icon.png) are original works by the theme author and are
+licensed under GPL v2 or later. No other third-party libraries are bundled.

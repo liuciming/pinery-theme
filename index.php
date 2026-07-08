@@ -48,7 +48,7 @@ if (!defined("ABSPATH")) exit;
             </a>
           <?php elseif (has_post_thumbnail()): ?>
             <a href="#" class="js-lightbox-trigger">
-              <?php the_post_thumbnail('card'); ?>
+              <?php the_post_thumbnail('pinery-card'); ?>
             </a>
           <?php else: ?>
             <div class="post-card-placeholder"></div>
@@ -63,7 +63,7 @@ if (!defined("ABSPATH")) exit;
 <?php pinery_ad_zone('hero_below'); ?>
 
 <!-- FEATURED POSTS -->
-<section class="featured-posts">
+<main id="main" class="featured-posts">
   <div class="section-header">
     <p class="section-label"><?php _e("Editor's Picks", 'pinery'); ?></p>
     <h2 class="section-title"><?php _e("What We're Loving Right Now", 'pinery'); ?></h2>
@@ -102,7 +102,7 @@ if (!defined("ABSPATH")) exit;
   </div>
   <?php endif; ?>
 
-</section>
+</main>
 
 <?php if ($max_pages > 1): ?>
 <script>

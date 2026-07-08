@@ -16,7 +16,7 @@ if (!defined("ABSPATH")) exit;
   </div>
 </div>
 
-<section class="featured-posts">
+<main id="main" class="featured-posts">
   <div class="section-header">
     <p class="section-label"><?php _e('Latest Posts', 'pinery'); ?></p>
     <h2 class="section-title"><?php _e('Our Most Recent Content', 'pinery'); ?></h2>
@@ -31,7 +31,7 @@ if (!defined("ABSPATH")) exit;
                data-post-title="<?php echo esc_attr(get_the_title()); ?>">
         <div class="post-card-image">
           <a href="#" class="js-lightbox-trigger">
-            <?php if (has_post_thumbnail()) the_post_thumbnail('card');
+            <?php if (has_post_thumbnail()) the_post_thumbnail('pinery-card');
             else echo '<div class="post-card-placeholder"></div>'; ?>
           </a>
         </div>
@@ -43,6 +43,6 @@ if (!defined("ABSPATH")) exit;
       </article>
     <?php endwhile; wp_reset_postdata(); ?>
   </div>
-</section>
+</main>
 
 <?php get_footer(); ?>

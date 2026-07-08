@@ -13,7 +13,7 @@ if (!defined("ABSPATH")) exit;
 <?php endif; ?>
 
 <div class="content-sidebar-wrap">
-  <main class="post-content-wrap">
+  <main id="main" class="post-content-wrap">
     <div class="post-hero">
       <div class="post-hero-inner">
         <h1 class="post-title"><?php the_title(); ?></h1>

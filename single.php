@@ -38,7 +38,7 @@ if ((has_post_thumbnail() || !empty($amazon_img)) && !post_password_required()):
 <?php endif; ?>
 
 <div class="content-sidebar-wrap">
-  <main class="post-content-wrap">
+  <main id="main" class="post-content-wrap">
     <div class="post-content">
       <?php the_content(); ?>
       <?php wp_link_pages([
@@ -65,9 +65,9 @@ if ((has_post_thumbnail() || !empty($amazon_img)) && !post_password_required()):
     <?php
     $product = get_post_meta(get_the_ID(), '_pinery_flow_product', true);
     $asin = $product['asin'] ?? '';
-    if ($asin && $asin !== 'N/A'):
-      if (class_exists('Pinery_Creators_API') && Pinery_Creators_API::is_available()) {
-        $gallery = Pinery_Creators_API::get_product_images($asin);  // cached for 1 h, hotlinked
+    if (is_array($product)):
+      if (class_exists('Pinery_Flow_Pipeline')) {
+        $gallery = Pinery_Flow_Pipeline::get_product_gallery($asin, get_the_ID());  // scrape-time meta → Creators API
       } else {
         $gallery = [];
       }
@@ -107,8 +107,8 @@ if ((has_post_thumbnail() || !empty($amazon_img)) && !post_password_required()):
                   <a href="<?php the_permalink(); ?>">
                     <?php $rel_amazon = get_post_meta(get_the_ID(), '_pinery_amazon_image', true);
                     if (!empty($rel_amazon)): ?>
-                      <img src="<?php echo esc_url($rel_amazon); ?>" alt="<?php echo esc_attr(get_the_title()); ?>" class="attachment-card size-card wp-post-image" loading="lazy" />
-                    <?php elseif (has_post_thumbnail()): the_post_thumbnail('card');
+                      <img src="<?php echo esc_url($rel_amazon); ?>" alt="<?php echo esc_attr(get_the_title()); ?>" class="attachment-pinery-card size-pinery-card wp-post-image" loading="lazy" />
+                    <?php elseif (has_post_thumbnail()): the_post_thumbnail('pinery-card');
                     else: echo '<div class="post-card-placeholder"></div>'; endif; ?>
                   </a>
                 </div>

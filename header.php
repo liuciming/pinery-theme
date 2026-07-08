@@ -9,6 +9,7 @@ if (!defined("ABSPATH")) exit;
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
+<a class="skip-link screen-reader-text" href="#main"><?php esc_html_e('Skip to content', 'pinery'); ?></a>
 
 <header class="site-header">
   <div class="header-inner">
@@ -25,6 +26,7 @@ if (!defined("ABSPATH")) exit;
         'container'      => false,
         'fallback_cb'    => function() {
           echo '<ul>';
+          echo pinery_shop_menu_item_html(); // Shop first, when WooCommerce is active
           wp_list_categories([
             'title_li' => '',
             'depth'    => 1,
@@ -44,6 +46,14 @@ if (!defined("ABSPATH")) exit;
   <nav class="category-nav">
     <div class="category-nav-inner">
       <?php
+      // Shop first — on mobile this strip is the only nav, so the store entry must be visible
+      if (class_exists('WooCommerce') && function_exists('wc_get_page_id')) {
+        $pinery_shop_id = (int) wc_get_page_id('shop');
+        if ($pinery_shop_id > 0 && get_post_status($pinery_shop_id) === 'publish') {
+          $pinery_shop_active = (function_exists('is_shop') && is_shop()) ? ' active' : '';
+          echo '<a href="' . esc_url(get_permalink($pinery_shop_id)) . '" class="cat-link' . $pinery_shop_active . '">' . esc_html(get_the_title($pinery_shop_id)) . '</a>';
+        }
+      }
       $cats = get_categories(['orderby' => 'count', 'order' => 'DESC', 'number' => 8]);
       if ($cats):
         foreach ($cats as $cat):

@@ -16,7 +16,7 @@ if (!defined("ABSPATH")) exit;
   </div>
 </div>
 
-<section class="featured-posts">
+<main id="main" class="featured-posts">
   <?php if (have_posts()): ?>
     <div class="posts-grid layout-<?php echo esc_attr(get_theme_mod('pinery_layout_style', 'masonry')); ?>">
       <?php $counter = 0;
@@ -26,8 +26,8 @@ if (!defined("ABSPATH")) exit;
             <a href="<?php the_permalink(); ?>">
               <?php $amz = get_post_meta(get_the_ID(), '_pinery_amazon_image', true);
               if (!empty($amz)): ?>
-                <img src="<?php echo esc_url($amz); ?>" alt="<?php echo esc_attr(get_the_title()); ?>" class="attachment-card size-card wp-post-image" loading="lazy" />
-              <?php elseif (has_post_thumbnail()): the_post_thumbnail('card');
+                <img src="<?php echo esc_url($amz); ?>" alt="<?php echo esc_attr(get_the_title()); ?>" class="attachment-pinery-card size-pinery-card wp-post-image" loading="lazy" />
+              <?php elseif (has_post_thumbnail()): the_post_thumbnail('pinery-card');
               else: echo '<div class="post-card-placeholder"></div>'; endif; ?>
             </a>
           </div>
@@ -59,6 +59,6 @@ if (!defined("ABSPATH")) exit;
       <?php get_search_form(); ?>
     </div>
   <?php endif; ?>
-</section>
+</main>
 
 <?php get_footer(); ?>

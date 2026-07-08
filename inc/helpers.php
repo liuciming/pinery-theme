@@ -78,10 +78,15 @@ function pinery_output_css_variables() {
     echo '<meta name="pinery-price-nonce" content="' . esc_attr(wp_create_nonce('pinery_creators_price')) . '">' . "\n";
 }
 
-// Adjust hex color brightness
+// Adjust hex color brightness. Invalid input returns a safe neutral instead of garbage CSS.
 function pinery_adjust_brightness($hex, $percent) {
-    $hex = ltrim($hex, '#');
-    if (strlen($hex) === 3) $hex = $hex[0].$hex[0].$hex[1].$hex[1].$hex[2].$hex[2];
+    $hex = ltrim((string) $hex, '#');
+    if (preg_match('/^[0-9a-fA-F]{3}$/', $hex)) {
+        $hex = $hex[0].$hex[0].$hex[1].$hex[1].$hex[2].$hex[2];
+    }
+    if (!preg_match('/^[0-9a-fA-F]{6}$/', $hex)) {
+        return '#2c2420'; // theme default dark — safe fallback for bad theme-mod values
+    }
     $r = max(0, min(255, hexdec(substr($hex, 0, 2)) + $percent * 2.55));
     $g = max(0, min(255, hexdec(substr($hex, 2, 2)) + $percent * 2.55));
     $b = max(0, min(255, hexdec(substr($hex, 4, 2)) + $percent * 2.55));
@@ -135,9 +140,9 @@ function pinery_render_post_card($counter, $layout_style = 'masonry') {
         <div class="post-card-image">
           <a href="#" class="js-lightbox-trigger">
             <?php if (!empty($amazon_img)): ?>
-              <img src="<?php echo esc_url($amazon_img); ?>" alt="<?php echo esc_attr(get_the_title()); ?>" class="attachment-card size-card wp-post-image" loading="lazy" />
+              <img src="<?php echo esc_url($amazon_img); ?>" alt="<?php echo esc_attr(get_the_title()); ?>" class="attachment-pinery-card size-pinery-card wp-post-image" loading="lazy" />
             <?php elseif (has_post_thumbnail()): ?>
-              <?php the_post_thumbnail('card'); ?>
+              <?php the_post_thumbnail('pinery-card'); ?>
             <?php else: ?>
               <div class="post-card-placeholder"></div>
             <?php endif; ?>

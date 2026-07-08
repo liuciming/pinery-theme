@@ -19,8 +19,8 @@ function pinery_setup() {
         'width'       => 240,
         'flex-height' => true,
     ]);
-    add_image_size('card', 800, 0, false);
-    add_image_size('hero', 1200, 800, true);
+    add_image_size('pinery-card', 800, 0, false);
+    add_image_size('pinery-hero', 1200, 800, true);
 
     add_theme_support('automatic-feed-links');
     add_theme_support('wp-block-styles');
@@ -28,7 +28,15 @@ function pinery_setup() {
     add_theme_support('align-wide');
     add_theme_support('editor-styles');
     add_editor_style('editor-style.css');
-    add_theme_support('post-formats', ['standard', 'gallery', 'image']);
+
+    // WooCommerce
+    add_theme_support('woocommerce', [
+        'thumbnail_image_width' => 800,
+        'single_image_width'    => 1000,
+    ]);
+    add_theme_support('wc-product-gallery-zoom');
+    add_theme_support('wc-product-gallery-lightbox');
+    add_theme_support('wc-product-gallery-slider');
     add_theme_support('custom-background', ['default-color' => 'faf7f4']);
     add_theme_support('custom-header', [
         'default-text-color' => '2c2420',
@@ -48,12 +56,36 @@ function pinery_setup() {
 }
 add_action('after_setup_theme', 'pinery_setup');
 
+// ── Primary nav: prepend a Shop link when WooCommerce is active ──
+function pinery_shop_menu_item_html() {
+    if (!class_exists('WooCommerce')) return '';
+    $shop_url = wc_get_page_permalink('shop');
+    if (!$shop_url) return '';
+    return '<li class="menu-item menu-item-shop"><a href="' . esc_url($shop_url) . '">' . esc_html__('Shop', 'pinery') . '</a></li>';
+}
+
+add_filter('wp_nav_menu_items', function ($items, $args) {
+    if (empty($args->theme_location) || $args->theme_location !== 'primary') return $items;
+    $li = pinery_shop_menu_item_html();
+    // Skip if the menu already links to the shop page
+    if (!$li || (class_exists('WooCommerce') && strpos($items, esc_url(wc_get_page_permalink('shop'))) !== false)) return $items;
+    return $li . $items;
+}, 10, 2);
+
 // ── Enqueue Assets ──
 function pinery_enqueue() {
     $ver = wp_get_theme()->get('Version') ?: '1.3.0';
     wp_enqueue_style('pinery-style', get_stylesheet_uri(), [], $ver);
     wp_add_inline_style('pinery-style', pinery_inline_css());
+    if (class_exists('WooCommerce')) {
+        wp_enqueue_style('pinery-woocommerce', get_template_directory_uri() . '/assets/woocommerce.css', ['pinery-style'], $ver);
+    }
     wp_enqueue_script('pinery-lightbox', get_template_directory_uri() . '/js/lightbox.js', [], $ver, true);
+    wp_localize_script('pinery-lightbox', 'pineryData', [
+        'ajaxUrl'    => admin_url('admin-ajax.php'),
+        'priceNonce' => wp_create_nonce('pinery_creators_price'),
+        'priceTtl'   => (int) get_option('pinery_flow_creators_price_ttl', 60),
+    ]);
     if (is_singular() && comments_open() && get_option('thread_comments')) {
         wp_enqueue_script('comment-reply');
     }
