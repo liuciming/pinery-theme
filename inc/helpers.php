@@ -41,42 +41,9 @@ function pinery_get_full_image_url($post_id = 0) {
     return $img ? $img[0] : '';
 }
 
-// Output customizer CSS variables
-function pinery_output_css_variables() {
-    $accent    = get_theme_mod('pinery_accent_color', '#b07d62');
-    $bg        = get_theme_mod('pinery_bg_color', '#faf7f4');
-    $text      = get_theme_mod('pinery_text_color', '#3d3028');
-    $heading   = get_theme_mod('pinery_heading_color', '#2c2420');
-    $card_bg   = get_theme_mod('pinery_card_bg_color', '#fff9f5');
-    $font_size = get_theme_mod('pinery_font_size', 16);
-
-    // Derive secondary colors from selected palette
-    $dark   = pinery_adjust_brightness($heading, -15);
-    $light  = pinery_adjust_brightness($text, 80);
-    $sand   = pinery_adjust_brightness($bg, -10);
-    $linen  = pinery_adjust_brightness($bg, -8);
-    $taupe  = pinery_adjust_brightness($text, 60);
-    $accent_light = pinery_adjust_brightness($accent, 30);
-
-    echo "<style id='pinery-css-vars'>:root {
-        --accent: {$accent};
-        --accent-light: {$accent_light};
-        --cream: {$bg};
-        --warm-white: {$card_bg};
-        --linen: {$linen};
-        --sand: {$sand};
-        --taupe: {$taupe};
-        --dark: {$dark};
-        --text: {$text};
-        --text-light: {$light};
-        --font-size-base: {$font_size}px;
-    }</style>\n";
-
-    // Creators API price refresh TTL (in minutes)
-    $price_ttl = (int) get_option('pinery_flow_creators_price_ttl', 60);
-    echo '<meta name="pinery-price-ttl" content="' . esc_attr($price_ttl) . '">' . "\n";
-    echo '<meta name="pinery-price-nonce" content="' . esc_attr(wp_create_nonce('pinery_creators_price')) . '">' . "\n";
-}
+// Customizer CSS variables are attached to the main stylesheet via
+// wp_add_inline_style() in pinery_inline_css() — see functions.php.
+// (Price-refresh config for JS travels via wp_localize_script 'pineryData'.)
 
 // Adjust hex color brightness. Invalid input returns a safe neutral instead of garbage CSS.
 function pinery_adjust_brightness($hex, $percent) {

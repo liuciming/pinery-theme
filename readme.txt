@@ -3,11 +3,11 @@ Theme URI: https://github.com/liuciming/pinery-theme
 Author: PineryPicks
 Author URI: https://www.pinery.pro/
 Description: Pinery is a clean, lightweight masonry-grid theme for blogs, photography, and image-led content. It features a responsive Pinterest-style card layout, a lightbox image preview, Customizer color options, custom logo and header support, featured images, and a right sidebar. Translation-ready.
-Version: 1.6.3
+Version: 1.7.0
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 1.6.3
+Stable tag: 1.7.0
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: pinery
@@ -57,6 +57,11 @@ Go to Settings > Reading in your WordPress admin.
 No. The theme works on its own. The plugin only adds optional affiliate automation features.
 
 == Changelog ==
+
+= 1.7.0 =
+* Theme-review fixes: customizer CSS variables now attach to the main stylesheet via wp_add_inline_style (no hardcoded style tag); the homepage infinite-scroll script moved to an enqueued file (js/load-more.js) — no inline scripts in templates
+* Footer: removed hardcoded page links; the Info column now shows only the configured privacy-policy link; credit link rewritten with proper escaping
+* New screenshot.png showing the actual theme rendering
 
 = 1.6.3 =
 * WooCommerce catalog now defaults to newest-first (like posts); an explicit owner sorting choice in Product Catalog settings is respected

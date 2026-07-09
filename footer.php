@@ -47,22 +47,27 @@ if (!defined("ABSPATH")) exit;
         }
       ]); ?>
     </div>
+    <?php if (function_exists('the_privacy_policy_link') && get_privacy_policy_url()): ?>
     <div class="footer-col">
-      <h4><?php _e('Info', 'pinery'); ?></h4>
+      <h4><?php esc_html_e('Info', 'pinery'); ?></h4>
       <ul>
-        <li><a href="<?php echo esc_url(home_url('/about')); ?>"><?php _e('About Us', 'pinery'); ?></a></li>
-        <li><a href="<?php echo esc_url(home_url('/contact')); ?>"><?php _e('Contact', 'pinery'); ?></a></li>
-        <li><a href="<?php echo esc_url(home_url('/privacy-policy')); ?>"><?php _e('Privacy Policy', 'pinery'); ?></a></li>
-        <li><a href="<?php echo esc_url(home_url('/affiliate-disclosure')); ?>"><?php _e('Affiliate Disclosure', 'pinery'); ?></a></li>
+        <li><?php the_privacy_policy_link(); ?></li>
       </ul>
     </div>
+    <?php endif; ?>
   </div>
   <div class="footer-bottom">
     <p>&copy; <?php echo esc_html(gmdate('Y')); ?> <?php bloginfo('name'); ?>
       <?php if (get_theme_mod('pinery_affiliate_default_tag')): ?>
         &mdash; <?php _e('As an Amazon Associate I earn from qualifying purchases.', 'pinery'); ?>
       <?php endif; ?>
-      &mdash; <?php printf( __( 'Powered by <a href="%s" rel="nofollow">Pinery</a>', 'pinery' ), 'https://pinery.pro' ); ?>
+      &mdash; <?php
+        printf(
+          /* translators: %s: linked theme name */
+          esc_html__( 'Powered by %s', 'pinery' ),
+          '<a href="' . esc_url( 'https://www.pinery.pro/' ) . '">Pinery</a>'
+        );
+      ?>
     </p>
   </div>
 </footer>

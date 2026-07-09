@@ -90,6 +90,7 @@ function pinery_enqueue() {
     }
     wp_enqueue_script('pinery-lightbox', get_template_directory_uri() . '/js/lightbox.js', [], $ver, true);
     wp_enqueue_script('pinery-masonry', get_template_directory_uri() . '/js/masonry.js', [], $ver, true);
+    wp_enqueue_script('pinery-load-more', get_template_directory_uri() . '/js/load-more.js', ['pinery-lightbox'], $ver, true);
     wp_localize_script('pinery-lightbox', 'pineryData', [
         'ajaxUrl'    => admin_url('admin-ajax.php'),
         'priceNonce' => wp_create_nonce('pinery_creators_price'),
@@ -112,18 +113,34 @@ function pinery_customizer_enqueue() {
 }
 add_action('customize_preview_init', 'pinery_customizer_enqueue');
 
-// ── Inline CSS for customizer values ──
+// ── Inline CSS for customizer values (attached to the main stylesheet — no hardcoded <style>) ──
 function pinery_inline_css() {
     $desktop = get_theme_mod('pinery_columns_desktop', 3);
     $tablet  = get_theme_mod('pinery_columns_tablet', 2);
     $mobile  = get_theme_mod('pinery_columns_mobile', 2);
     $font_size    = get_theme_mod('pinery_font_size', 16);
 
+    $accent  = get_theme_mod('pinery_accent_color', '#b07d62');
+    $bg      = get_theme_mod('pinery_bg_color', '#faf7f4');
+    $text    = get_theme_mod('pinery_text_color', '#3d3028');
+    $heading = get_theme_mod('pinery_heading_color', '#2c2420');
+    $card_bg = get_theme_mod('pinery_card_bg_color', '#fff9f5');
+
     $css = ":root {
         --font-size-base: {$font_size}px;
         --cols-desktop: {$desktop};
         --cols-tablet: {$tablet};
         --cols-mobile: {$mobile};
+        --accent: {$accent};
+        --accent-light: " . pinery_adjust_brightness($accent, 30) . ";
+        --cream: {$bg};
+        --warm-white: {$card_bg};
+        --linen: " . pinery_adjust_brightness($bg, -8) . ";
+        --sand: " . pinery_adjust_brightness($bg, -10) . ";
+        --taupe: " . pinery_adjust_brightness($text, 60) . ";
+        --dark: " . pinery_adjust_brightness($heading, -15) . ";
+        --text: {$text};
+        --text-light: " . pinery_adjust_brightness($text, 80) . ";
     }";
 
     // Show/hide excerpt and meta on cards
@@ -183,4 +200,3 @@ function pinery_ajax_load_more() {
 }
 
 // ── Output CSS variables in <head> ──
-add_action('wp_head', 'pinery_output_css_variables', 5);
