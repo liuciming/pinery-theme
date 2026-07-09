@@ -126,22 +126,41 @@ function pinery_inline_css() {
     $heading = get_theme_mod('pinery_heading_color', '#2c2420');
     $card_bg = get_theme_mod('pinery_card_bg_color', '#fff9f5');
 
-    $css = ":root {
-        --font-size-base: {$font_size}px;
-        --cols-desktop: {$desktop};
-        --cols-tablet: {$tablet};
-        --cols-mobile: {$mobile};
-        --accent: {$accent};
-        --accent-light: " . pinery_adjust_brightness($accent, 30) . ";
-        --cream: {$bg};
-        --warm-white: {$card_bg};
-        --linen: " . pinery_adjust_brightness($bg, -8) . ";
-        --sand: " . pinery_adjust_brightness($bg, -10) . ";
-        --taupe: " . pinery_adjust_brightness($text, 60) . ";
-        --dark: " . pinery_adjust_brightness($heading, -15) . ";
-        --text: {$text};
-        --text-light: " . pinery_adjust_brightness($text, 80) . ";
-    }";
+    // Emit a color variable only when the owner changed it in the Customizer —
+    // untouched palettes come straight from style.css (no derivation drift).
+    // Derivation offsets mirror the stylesheet's default relationships.
+    $vars = [
+        '--font-size-base' => $font_size . 'px',
+        '--cols-desktop'   => $desktop,
+        '--cols-tablet'    => $tablet,
+        '--cols-mobile'    => $mobile,
+    ];
+    if (strtolower($accent) !== '#b07d62') {
+        $vars['--accent']       = $accent;
+        $vars['--accent-light'] = pinery_adjust_brightness($accent, 14);
+    }
+    if (strtolower($bg) !== '#faf7f4') {
+        $vars['--cream'] = $bg;
+        $vars['--linen'] = pinery_adjust_brightness($bg, -5);
+        $vars['--sand']  = pinery_adjust_brightness($bg, -10);
+    }
+    if (strtolower($text) !== '#3d3028') {
+        $vars['--text']       = $text;
+        $vars['--text-light'] = pinery_adjust_brightness($text, 24);
+        $vars['--taupe']      = pinery_adjust_brightness($text, 51);
+    }
+    if (strtolower($heading) !== '#2c2420') {
+        $vars['--dark'] = $heading;
+    }
+    if (strtolower($card_bg) !== '#fff9f5') {
+        $vars['--warm-white'] = $card_bg;
+    }
+
+    $css = ':root {';
+    foreach ($vars as $k => $v) {
+        $css .= "{$k}: {$v};";
+    }
+    $css .= '}';
 
     // Show/hide excerpt and meta on cards
     if (!get_theme_mod('pinery_show_excerpt', false)) {
