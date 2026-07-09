@@ -62,6 +62,7 @@ No. The theme works on its own. The plugin only adds optional affiliate automati
 * Theme-review fixes: customizer CSS variables now attach to the main stylesheet via wp_add_inline_style (no hardcoded style tag); the homepage infinite-scroll script moved to an enqueued file (js/load-more.js) — no inline scripts in templates
 * Footer: removed hardcoded page links; the Info column now shows only the configured privacy-policy link; credit link rewritten with proper escaping
 * New screenshot.png showing the actual theme rendering
+* Header main nav renders only when a Primary menu is assigned — its fallback used to duplicate the category strip below
 
 = 1.6.3 =
 * WooCommerce catalog now defaults to newest-first (like posts); an explicit owner sorting choice in Product Catalog settings is respected

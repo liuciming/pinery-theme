@@ -20,22 +20,17 @@ if (!defined("ABSPATH")) exit;
         <?php bloginfo('name'); ?>
       <?php endif; ?>
     </a>
+    <?php if (has_nav_menu('primary')): ?>
     <nav class="main-nav">
-      <?php wp_nav_menu([
+      <?php
+      // Rendered only when a Primary menu is assigned. Without one, the category
+      // strip below is the navigation — a fallback here would just duplicate it.
+      wp_nav_menu([
         'theme_location' => 'primary',
         'container'      => false,
-        'fallback_cb'    => function() {
-          echo '<ul>';
-          echo pinery_shop_menu_item_html(); // Shop first, when WooCommerce is active
-          wp_list_categories([
-            'title_li' => '',
-            'depth'    => 1,
-            'number'   => 5,
-          ]);
-          echo '</ul>';
-        }
       ]); ?>
     </nav>
+    <?php endif; ?>
     <button id="header-search-btn" class="header-search" aria-label="<?php esc_attr_e('Search', 'pinery'); ?>">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
         <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
