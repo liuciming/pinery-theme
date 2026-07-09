@@ -81,6 +81,7 @@ function pinery_enqueue() {
         wp_enqueue_style('pinery-woocommerce', get_template_directory_uri() . '/assets/woocommerce.css', ['pinery-style'], $ver);
     }
     wp_enqueue_script('pinery-lightbox', get_template_directory_uri() . '/js/lightbox.js', [], $ver, true);
+    wp_enqueue_script('pinery-masonry', get_template_directory_uri() . '/js/masonry.js', [], $ver, true);
     wp_localize_script('pinery-lightbox', 'pineryData', [
         'ajaxUrl'    => admin_url('admin-ajax.php'),
         'priceNonce' => wp_create_nonce('pinery_creators_price'),

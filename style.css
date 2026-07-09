@@ -4,7 +4,7 @@ Theme URI: https://github.com/liuciming/pinery-theme
 Author: PineryPicks
 Author URI: https://www.pinery.pro/
 Description: Pinery is a clean, lightweight masonry-grid theme for blogs, photography, and image-led content. It features a responsive Pinterest-style card layout, a lightbox image preview, Customizer color options, custom logo and header support, featured images, and a right sidebar. Translation-ready.
-Version: 1.6.0
+Version: 1.6.1
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 8.0
@@ -286,6 +286,20 @@ a { color: inherit; text-decoration: none; }
 
 @media (min-width: 900px) {
   .posts-grid { columns: 3; column-gap: 1.2rem; }
+}
+
+/* Row-first masonry (js/masonry.js): real column wrappers replace CSS multi-column,
+   so cards read left→right by date and never reflow when more posts load. */
+.posts-grid--js,
+.posts-grid--js.layout-masonry {
+  columns: auto !important;
+  display: flex;
+  gap: 0.9rem;
+  align-items: flex-start;
+}
+.posts-grid--js .pinery-mcol { flex: 1 1 0; min-width: 0; }
+@media (min-width: 900px) {
+  .posts-grid--js { gap: 1.2rem; }
 }
 
 /* ── POST CARD ── */

@@ -34,8 +34,11 @@
         value.bind(function(to) {
             var grid = document.querySelector('.posts-grid');
             if (grid) {
+                // Unwrap the JS masonry columns before leaving masonry layout
+                if (to !== 'masonry' && window.pineryMasonry) window.pineryMasonry.teardown();
                 grid.classList.remove('layout-masonry', 'layout-grid', 'layout-mixed');
                 grid.classList.add('layout-' + to);
+                if (to === 'masonry' && window.pineryMasonryInit) window.pineryMasonryInit();
             }
         });
     });
@@ -48,6 +51,7 @@
         setVar('--cols-desktop', desktop);
         setVar('--cols-tablet', tablet);
         setVar('--cols-mobile', mobile);
+        if (window.pineryMasonry) window.pineryMasonry.rebuild();
     }
     api('pinery_columns_desktop', function(v) { v.bind(updateCols); });
     api('pinery_columns_tablet', function(v) { v.bind(updateCols); });
