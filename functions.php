@@ -72,6 +72,14 @@ add_filter('wp_nav_menu_items', function ($items, $args) {
     return $li . $items;
 }, 10, 2);
 
+// ── WooCommerce: products sort like posts — newest first ──
+// Woo's stock default is menu_order (manual order + title), which interleaves new
+// products alphabetically. Swap that default for date; an explicit owner choice
+// (price / popularity / rating…) in Customizer → Product Catalog is respected.
+add_filter('woocommerce_default_catalog_orderby', function ($orderby) {
+    return $orderby === 'menu_order' ? 'date' : $orderby;
+});
+
 // ── Enqueue Assets ──
 function pinery_enqueue() {
     $ver = wp_get_theme()->get('Version') ?: '1.3.0';
